@@ -31,3 +31,4 @@ COPY --from=builder /go/bin/app /go/bin/app
 USER go:go
 EXPOSE 8000
 ENTRYPOINT ["/go/bin/app"]
+CMD ["--logtostderr=true"]
