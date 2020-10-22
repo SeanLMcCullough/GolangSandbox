@@ -32,3 +32,20 @@ func TestGetHealth(t *testing.T) {
 		t.Errorf("response from GET /health was incorrect. wanted %q but got %q", expected, response)
 	}
 }
+
+func TestGetRoot(t *testing.T) {
+	mux := setup()
+	rec := httptest.NewRecorder()
+	req, err := http.NewRequest("GET", "/", nil)
+	if err != nil {
+		t.Fatal("Request for GET / failed")
+	}
+	mux.ServeHTTP(rec, req)
+	if rec.Code != http.StatusOK {
+		t.Fatalf("wrong status code. wanted %d, got %d", http.StatusOK, rec.Code)
+	}
+	expected := []byte("Host = \"\"\nRemoteAddr = \"\"\n")
+	if response := rec.Body.Bytes(); !bytes.Equal(response, expected) {
+		t.Errorf("response from GET / was incorrect. wanted %q but got %q", expected, response)
+	}
+}
